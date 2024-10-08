@@ -52,3 +52,11 @@ The goal for this project is:
 3. End-2-end testing on the UI. This will be done with Playwright, and should work with the test database
 
 We could add an extra layers of testing, such as testing the components mocking the backend or unit tests for the Facade layer. However, they would not be adding significant value at this stage for this project, since the Controller layer will be very simple and will already run the code of the Facade layer, and because we aim at having e2e testing. With enough time we can develop those.
+
+## How to set the project up
+
+Run a PostgreSQL, you can use a command such as:
+
+docker run --name postgres-db -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
+
+Make sure the .env file contains the right DATABASE_URL

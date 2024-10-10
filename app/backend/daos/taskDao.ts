@@ -1,5 +1,5 @@
-import { Prisma } from "@prisma/client";
-import { Task } from "../../shared/constants";
+import { Prisma, Task } from "@prisma/client";
+import { TaskStatus } from "../../shared/constants";
 
 const create = async (
   tx: Prisma.TransactionClient,
@@ -49,7 +49,7 @@ const remove = async (tx: Prisma.TransactionClient, id: number) => {
 
 const countByStatus = async (
   tx: Prisma.TransactionClient,
-  status: Pick<Task, "status">["status"]
+  status: TaskStatus
 ) => {
   const count = await tx.task.count({
     where: { status },

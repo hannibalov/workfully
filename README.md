@@ -19,7 +19,7 @@ Moreover, a key detail had to be fixed, which was that tasks can only move by on
 
 ### Step 3. The frontend
 
-Given a stable backend, we started developing the backend and the 2e2 tests in playwright. We will detail the setup below, but the tldr is that we use react-query and useContext hooks to handle state management.
+Given a stable backend, we started developing the frontend and the 2e2 tests in playwright. We will detail the setup below, but the tldr is that we use react-query and useContext hooks to handle state management.
 
 ### Step 4. Project reorganization
 
@@ -53,6 +53,18 @@ We will integrate our PostgreSQL in our project through Prisma. This is a widely
 Analyzing the requirements, the only entity we need to store is Task. The columns are predefined, and there is no user management required.
 
 We could have chosen to have an entity Column, and this choice would have been a bit more in line with a DDD approach. Conceptually Column does exist, and Tasks could have a foreign key referencing them. However, in this project there is simply no other information associatet with Column, which would have made the schema unnecessarily complex. In the tradeoff between following a more DDD approach and a KISS aproach, we chose KISS in this case.
+
+### Project structure
+
+The project has a few relevant folders:
+
+-- app
+|-- backend `This contains all code related to the backend`
+|-- frontend `This contains all code related to the frontend`
+|-- shared `This is all code shared between frontend and backend`
+--e2e.tests `All the playwright tests`
+--lib `Global constants definitions for Prisma client`
+--prisma `The database schemas for Prisma`
 
 ### Architecture
 
@@ -129,9 +141,9 @@ The goal for this project regarding testing is:
 
 1. Have unit tests that check the interaction with the DB (Dao layer). This means making real insertions, deletions and retrievals. This is an overkill for a project this size, but as projects grow the complexity of schemas grow, and tables start to depend on each other, meaning some operations such as insertions/deletions will not be straightforward. So this is good practice to start early in a project. The implication of this is that we will need to have a test database, which means a bit of extra boilerplate.
 2. Have unit tests that check the API, but mock the database (Controller layer). We want to isolate the potential issues of business logic, so for those tests we will mock the DB.
-3. End-2-end testing on the UI. This is done with Playwright, and should work with the test database.
+3. End-2-end testing on the UI. This is done with Playwright, and should run against the test database to avoid interacting with data in our development environment.
 
-We could add an extra layers of testing, such as testing the components mocking the backend or unit tests for the Facade layer. However, they would not be adding significant value at this stage for this project, since the Controller layer will be very simple and will already run the code of the Facade layer, and because we aim at having e2e testing. With enough time we can develop those.
+We could add an extra layers of testing, such as testing the components mocking the backend or unit tests for the Facade layer. However, they would not be adding significant value at this stage for this project, since we have tests for the Controller layer which in turn run the code of the Facade layer, and because we have e2e testing. The Controller layer is so simple that it's not worth to test on its own mocking the Facade, and the e2e testing covers the UI, so separate component testing is a bit redundant. However, in the future with more time and with more complexity, adding a layer of testing for the components mocking the backend would be useful.
 
 ## How to set the project up
 
@@ -141,13 +153,13 @@ We assume that you have a setup that can run Node projects. You should also inst
 
 ### Setup
 
-Run anc configure 2 PostgreSQL databases, you can use a command such as:
+Run and configure 2 PostgreSQL databases (development and testing). You can use a command such as:
 
 ```
 docker run --name postgres-db -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres
 ```
 
-Make sure the .env file contains the right DATABASE_URL and the right BACKEND_PORT.
+Make sure the .env file contains the right `DATABASE_URL` and the right `BACKEND_PORT`.
 
 There is an example of .env file in the repo called .env.example, change the values according to your setup
 
@@ -165,9 +177,9 @@ yarn dev
 
 ### How to run tests
 
-Make sure you have a .env.test file, which contains the DATABASE_URL and the BACKEND_PORT, as well as the BASE_URL. There's also an example file in the repo.
+Make sure you have a .env.test file, which contains the `DATABASE_URL` and the `BACKEND_PORT`, as well as the `BASE_URL`. There's also an example file in the repo.
 
-BASE_URL is the url the e2e tests will use to navigate to. Using a different port is useful to be able to run the tests while you also have the dev project running. Same with BACKEND_PORT. DATABASE_URL should also be different, since the tests affect the database, and we want to keep the development and the testing dbs separately.
+`BASE_URL` is the url the e2e tests will use to navigate to. Using a different port is useful to be able to run the tests while you also have the dev project running. Same with `BACKEND_PORT`. `DATABASE_URL` should also be different, since the tests affect the database, and we want to keep the development and the testing dbs separately.
 
 To execute the tests run in different terminals:
 

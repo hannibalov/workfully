@@ -62,7 +62,13 @@ body {
   height: fit-content;
   background-color: #f0f0f0;
   gap: 10px;
-  /* Space between task-cards */
+}
+.task-column-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 100%;
+  min-height: 100%;
 }
 .task-column-dragged-over-ok {
   background-color: #c2eca4;

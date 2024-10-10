@@ -2,7 +2,7 @@
 
 import React from "react";
 import { SnackbarProvider } from "./frontend/context/snackbarContext";
-import Board from "./frontend/components/Board";
+import Board from "./frontend/components/layouts/Board";
 
 // Define the Home component
 export default function Home() {

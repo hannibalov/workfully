@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useTasks } from "../hooks/useTasks";
-import AddTaskDialog from "./AddTaskDialog";
-import { useSnackbar } from "../context/snackbarContext";
+import { useTaskQueries } from "../../hooks/useTaskQueries";
+import AddTaskDialog from "../dialogs/AddTaskDialog";
+import { useSnackbar } from "../../context/snackbarContext";
 
 const AddTaskButton: React.FC = () => {
   const [isAddTaskDialogOpen, setIsAddTaskDialogOpen] = useState(false);
-  const { addTaskMutation } = useTasks();
+  const { addTaskMutation } = useTaskQueries();
   const { showMessage } = useSnackbar();
 
   const handleAddTask = (title: string, description: string) => {

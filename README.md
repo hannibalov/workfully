@@ -21,6 +21,23 @@ Moreover, a key detail had to be fixed, which was that tasks can only move by on
 
 Given a stable backend, we started developing the backend and the 2e2 tests in playwright. We will detail the setup below, but the tldr is that we use react-query and useContext hooks to handle state management.
 
+### Step 4. Project reorganization
+
+After developing the project itself, the project and the code can use some refactoring. The major changes here are in the frontend:
+
+- Extracting the logic from components to custom hooks. This way we separate the logic of dealing with data, doing checks, etc. from the component rendering. In particular we did this refactor for TaskCards and TaskColumns. The other components are just too simple and they are not worth separating the logic and overloading the project with extra files.
+- Renaming files and reorganizing them into folders with better organization
+
+### Future steps
+
+This project would benefit from a few extra features. In particular, it would be interesting to:
+
+- Include authentication
+- Support multiple boards and custom columns
+- Multiuser board collaboration
+
+Moreover, from a technical perspective, including CI/CD scripts and deploying it to a cloud server would be a necessary step towards a more professional setup.
+
 ### Database
 
 Given the requirements we will choose PostgreSQL. This is a widely used SQL database, with all documentation necessary, and easily portable to cloud-managed systems such as AWS RDS and similar. It also offers interesting features such as triggers which, even if they are outside of the scope of this project as is, could come in handy for the future.
@@ -68,6 +85,8 @@ This decision has a drawback, which is that we can't use the NextJS feature of s
 
 There are some situations where react-query is not enough as a state management tool. For example, if we want to have a single component that displays error messages to the user instead of each component handling its own, react-query is no help. In this case, we will use useContext hooks and Context Providers to handle that.
 
+Other solutions such as Redux could have been chosen. However, Redux is a framework that requires a much bigger boilerplate without providing additional value, especially for a project this size. The mix of react-query and useContext provide similar functionality with minimal overhead.
+
 ###### Local Storage
 
 The code challenge mentions that the board should be stored in Local Storage. However, this seems redundant with our setup. React-query is a much better solution, so this requirement was dropped. If this were a hard requirement from a client for reasons beyond our knowledge, for example, this could easily be implemented in Board.tsx by storing the tasks after receiving them and checking it's not still loading or there are errors.
@@ -95,6 +114,10 @@ We opted for a drag and drop solution to implement task status change, and this 
 One of the advantages of using react-query becomes apparent here. Whenever a task changes status, the query to fetch the tasks gets invalidated, and the UI gets automatically refreshed, without the need of us maintaining the state. The drawback in this case, is that react-query under the hood is requesting all the tasks, which is technically not necessary if we maintained the state ourselves in the frontend. However, this becomes much more powerful when we think about how this project would naturally evolve, with multiuser and a collaborative setup. In that case, just by configuring our queries to have a stale time, we would see other people's changes without us having to maintain a complex communication/cache system. Technically yes, we are performing more requests than necessary, but the load in computation and network use is manageable, and the simplicity of project maintenance is well worth it.
 
 The other detail of state management is how we display error messages to the user, which is again through a Context Provider, so that every component has access to the same SnackMessage component
+
+##### Styles
+
+Since this project is not very heavy in styling, we opted for simplicity and used a single css file and using classNames in our components. Other solutions such as Styled Components or CSS modules could be more powerful and provide more flexibility for the future, but we opted for simplicity in this case.
 
 ##### Error management
 
@@ -146,7 +169,7 @@ Make sure you have a .env.test file, which contains the DATABASE_URL and the BAC
 
 BASE_URL is the url the e2e tests will use to navigate to. Using a different port is useful to be able to run the tests while you also have the dev project running. Same with BACKEND_PORT. DATABASE_URL should also be different, since the tests affect the database, and we want to keep the development and the testing dbs separately.
 
-To run the backend tests run in different terminals:
+To execute the tests run in different terminals:
 
 ```
 yarn backend:test

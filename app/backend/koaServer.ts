@@ -17,7 +17,7 @@ router.patch("/api/tasks", withTransaction, taskController.updateTaskStatus);
 
 app.use(router.routes()).use(router.allowedMethods());
 
-const port = process.env.PORT || 3001;
+const port = process.env.BACKEND_PORT || 3001;
 app.listen(port, () => {
   console.log(`Koa server running on port ${port}`);
 });

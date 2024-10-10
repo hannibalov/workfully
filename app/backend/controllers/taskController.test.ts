@@ -5,6 +5,7 @@ import request from "supertest";
 import { taskController } from "./taskController";
 import { withTransaction } from "../middleware/middleware";
 import prisma from "../../../lib/prisma";
+import { sharedErrorMessages, TaskStatus } from "../../shared/constants";
 
 // Mocking Prisma client with $transaction
 jest.mock("../../../lib/prisma", () => {
@@ -93,7 +94,7 @@ describe("PATCH /tasks", () => {
       .send({ id: 888, status: "INVALID_STATUS" });
 
     expect(res.status).toBe(400);
-    expect(res.body.error).toMatch(/"status" must be one of/); // Adjust based on your Joi message
+    expect(res.body.error).toMatch(/"status" must be one of/);
   });
 
   it("should return 400 if the task status is DONE", async () => {
@@ -155,14 +156,14 @@ describe("PATCH /tasks", () => {
       fn(transactionalPrisma)
     );
 
-    const check = async (status: string) => {
+    const check = async (status: TaskStatus) => {
       const resDoing = await request(app.callback())
         .patch("/tasks")
         .send({ id: 555, status });
 
       expect(resDoing.status).toBe(400);
       expect(resDoing.body.error).toBe(
-        `Cannot change status to ${status} from BACKLOG`
+        sharedErrorMessages.incorrectStatusChange("BACKLOG", status)
       );
 
       await check("DOING");

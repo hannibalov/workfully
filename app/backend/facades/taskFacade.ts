@@ -1,4 +1,8 @@
-import { canChangeToStatus, Task } from "../../shared/constants";
+import {
+  canChangeToStatus,
+  sharedErrorMessages,
+  Task,
+} from "../../shared/constants";
 import { taskDao } from "../daos/taskDao";
 import { Prisma } from "@prisma/client";
 
@@ -33,11 +37,15 @@ export async function updateStatus(
   }
 
   if (task.status === "DONE") {
-    throw new Error("Cannot change status of a DONE task");
+    throw new Error(
+      sharedErrorMessages.incorrectStatusChange(task.status, status)
+    );
   }
 
   if (!canChangeToStatus(task, status)) {
-    throw new Error(`Cannot change status to ${status} from ${task.status}`);
+    throw new Error(
+      sharedErrorMessages.incorrectStatusChange(task.status, status)
+    );
   }
 
   // Logic for "DOING" task status

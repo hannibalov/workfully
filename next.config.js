@@ -3,6 +3,7 @@ dotenv.config();
 
 module.exports = {
   async rewrites() {
+    console.log('Rewrites to', process.env.BACKEND_PORT);
     const rewritesConfig = [
       {
         source: '/api/:path*',

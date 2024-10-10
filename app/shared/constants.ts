@@ -19,3 +19,10 @@ export const canChangeToStatus = (
     return true;
   return false;
 };
+
+export const sharedErrorMessages = {
+  incorrectStatusChange: (statusFrom: TaskStatus, statusTo: TaskStatus) =>
+    statusFrom === "DONE"
+      ? "Cannot change status of a DONE task"
+      : `Cannot change status to ${statusTo} from ${statusFrom}`,
+};

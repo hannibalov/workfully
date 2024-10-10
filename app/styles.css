@@ -1,0 +1,249 @@
+/* styles.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  overflow-y: auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  /* Changed to column for vertical stacking */
+  height: 100vh;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* Align items to the left */
+  background-color: #1e90ff;
+  /* Darker blue hue for the top bar */
+  padding: 15px 20px;
+  /* Add padding */
+  color: #fff;
+  /* Text color */
+}
+
+.logo {
+  height: 40px;
+  /* Ensure your logo's height */
+  margin-right: 10px;
+  /* Space between logo and title */
+  display: block;
+  /* Ensure it's treated as a block element */
+  background-color: transparent;
+  /* Ensure the background is transparent */
+  object-fit: contain;
+  /* Maintain aspect ratio */
+}
+
+.columns-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #87cefa;
+  /* Lighter blue hue for the columns container */
+  flex-grow: 1;
+  /* Allow this section to grow */
+  overflow-y: auto;
+  /* Allow vertical scrolling if necessary */
+}
+
+.task-column {
+  display: flex;
+  flex-direction: column;
+  width: -webkit-fill-available;
+  margin: 0 10px;
+  padding: 10px;
+  border-radius: 10px;
+  height: fit-content;
+  background-color: #f0f0f0;
+  gap: 10px;
+  /* Space between task-cards */
+}
+.task-column-dragged-over-ok {
+  background-color: #c2eca4;
+  /* Different background when dragged over */
+}
+.task-column-dragged-over-not-ok {
+  background-color: #e78bb5;
+  /* Different background when dragged over */
+}
+
+.task-card {
+  width: inherit;
+  min-height: 70px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  transition: transform 0.2s;
+  cursor: grab;
+  align-content: center;
+  text-align: start;
+  padding: 10px; 
+}
+
+.task-card:hover {
+  transform: scale(1.02);
+  /* Slightly scale up on hover */
+}
+
+.task-card-description {
+  /* Add padding for better readability */
+  margin-top: 5px;
+  font-size: 0.8em;
+  color: gray;
+}
+
+.task-card:active {
+  cursor: grabbing;
+  /* Change cursor while dragging */
+}
+
+.dragging {
+  opacity: 0;
+  /* Semi-transparent dragging effect */
+}
+
+.add-task-button {
+  background-color: transparent;
+  border: none;
+  color: #000;
+  /* Change this to your desired text color */
+  cursor: pointer;
+  font-size: 16px;
+  /* Adjust font size as needed */
+  padding: 10px;
+  /* Add padding for better click area */
+  margin-top: 10px;
+  /* Space above the button */
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  /* Add transition for smooth effect */
+  border-radius: 10px;
+}
+
+.add-task-button:hover {
+  background-color: #f0f0f0;
+  opacity: 0.6;
+  /* Slightly change opacity on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Add shadow on hover */
+}
+
+.add-task-button:active {
+  transform: scale(0.95);
+  /* Scale down slightly on click */
+  box-shadow: none;
+  /* Remove shadow when clicked */
+}
+
+.snack-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 16px;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.snack-message-button {
+  border: none;
+  color: #000;
+  /* Change this to your desired text color */
+  cursor: pointer;
+  font-size: 16px;
+  /* Add padding for better click area */
+  margin-left: 10px;
+  /* Add transition for smooth effect */
+  border-radius: 5px;
+}
+
+/* styles.css */
+.confirmation-dialog-overlay,
+.add-task-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  /* Ensure it appears above other elements */
+}
+
+.confirmation-dialog,
+.add-task-dialog {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  /* Set width as needed */
+  text-align: center;
+  /* Center align text */
+}
+
+.confirmation-dialog-actions,
+.add-task-dialog-actions {
+  display: flex;
+  justify-content: space-around;
+  /* Space buttons evenly */
+  margin-top: 20px;
+  /* Add space above buttons */
+}
+
+input,
+textarea {
+  width: 95%;
+  padding: 8px;
+  margin: 10px 0;
+  /* Add some margin between inputs */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+textarea {
+  height: 60px;
+  /* Set height for the textarea */
+}
+
+button {
+  min-width: 100px;
+  background-color: #1e90ff;
+  /* Match the top bar color */
+  color: #fff;
+  /* White text for contrast */
+  border: none;
+  /* No border */
+  border-radius: 10px;
+  /* Rounded corners */
+  padding: 10px 20px;
+  /* Padding for better click area */
+  cursor: pointer;
+  /* Pointer cursor on hover */
+  font-size: 16px;
+  /* Font size */
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  /* Smooth transition effects */
+}
+
+button:hover {
+  background-color: #0056b3;
+  /* Darker shade on hover */
+}
+button:active {
+  transform: scale(0.95);
+  /* Scale down slightly on click */
+}
+button:disabled {
+  background-color: #cde4fc;
+}

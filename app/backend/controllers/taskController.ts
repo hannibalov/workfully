@@ -1,6 +1,7 @@
 import Joi from "joi";
 import Koa from "koa";
 import { taskFacade } from "../facades/taskFacade";
+import { taskStatuses } from "../../shared/constants";
 
 // Define validation schemas
 const taskSchema = Joi.object({
@@ -10,7 +11,9 @@ const taskSchema = Joi.object({
 
 const updateStatusSchema = Joi.object({
   id: Joi.number().integer().required(),
-  status: Joi.string().valid("TODO", "DOING", "DONE", "BACKLOG").required(),
+  status: Joi.string()
+    .valid(...taskStatuses)
+    .required(),
 });
 
 // Helper function to validate payloads

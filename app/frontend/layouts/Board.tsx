@@ -1,6 +1,6 @@
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { useTasks } from "../hooks/useTasks";
+import { useTaskQueries } from "../hooks/useTaskQueries";
 import TaskColumn from "./TaskColumn";
 import { useSnackbar } from "../context/snackbarContext";
 import SnackMessage from "./SnackMessage";
@@ -10,7 +10,7 @@ import { DragProvider } from "../context/dragContext";
 
 const Board = () => {
   const { showMessage } = useSnackbar();
-  const { tasks, isLoading, error } = useTasks({
+  const { tasks, isLoading, error } = useTaskQueries({
     onError: (err: Error) => {
       showMessage(`Error fetching tasks: ${err.message}`);
     },

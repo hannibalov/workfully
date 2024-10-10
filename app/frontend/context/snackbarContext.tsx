@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import SnackMessage from "../components/SnackMessage";
+import SnackMessage from "../components/errors/SnackMessage";
 
 interface SnackbarContextProps {
   showMessage: (message: string) => void;

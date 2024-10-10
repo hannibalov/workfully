@@ -3,7 +3,7 @@ import { Task } from "../../shared/constants"; // Ensure this path is correct
 
 const API_URL = "/api/tasks"; // Update to your actual API endpoint
 
-export const useTasks = (options = {}) => {
+export const useTaskQueries = (options = {}) => {
   const queryClient = useQueryClient();
 
   // Fetch tasks

@@ -1,6 +1,6 @@
-import { TaskStatus } from "../../shared/constants";
+import { TaskStatus } from "../../../shared/constants";
 import React from "react";
-import { useDrag } from "../context/dragContext";
+import { useDrag } from "../../context/dragContext";
 
 type ConfirmationDialogProps = {
   columnStatus: TaskStatus;

@@ -117,7 +117,7 @@ describe("PATCH /tasks", () => {
     expect(res.body.error).toBe("Cannot change status of a DONE task");
   });
 
-  it("should fail if there are already 2 tasks in DIONG", async () => {
+  it("should fail if there are already 2 tasks in DOING", async () => {
     const transactionalPrisma = {
       task: {
         findUnique: jest.fn().mockResolvedValue({
@@ -139,6 +139,35 @@ describe("PATCH /tasks", () => {
     expect(res.body.error).toBe(
       "Cannot have more than 2 tasks with status DOING"
     );
+  });
+
+  it("should fail to change from BACKLOG to any other state than TODO", async () => {
+    const transactionalPrisma = {
+      task: {
+        findUnique: jest.fn().mockResolvedValue({
+          id: 555,
+          status: "BACKLOG",
+        }),
+        count: jest.fn().mockResolvedValue(2),
+      },
+    };
+    (prisma.$transaction as jest.Mock).mockImplementation((fn) =>
+      fn(transactionalPrisma)
+    );
+
+    const check = async (status: string) => {
+      const resDoing = await request(app.callback())
+        .patch("/tasks")
+        .send({ id: 555, status });
+
+      expect(resDoing.status).toBe(400);
+      expect(resDoing.body.error).toBe(
+        `Cannot change status to ${status} from BACKLOG`
+      );
+
+      await check("DOING");
+      await check("DONE");
+    };
   });
 
   it("should update the task status successfully", async () => {

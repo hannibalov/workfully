@@ -7,9 +7,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum TaskStatus {
+  BACKLOG
+  TODO
+  DOING
+  DONE
+}
+
 model Task {
-  id          Int     @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   title       String
   description String
-  status      String  @default("BACKLOG") 
+  status      TaskStatus @default(BACKLOG) 
 }

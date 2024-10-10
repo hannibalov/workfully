@@ -1,4 +1,4 @@
-import { Task } from "../../shared/constants";
+import { canChangeToStatus, Task } from "../../shared/constants";
 import { taskDao } from "../daos/taskDao";
 import { Prisma } from "@prisma/client";
 
@@ -22,7 +22,6 @@ export async function create(
   return newTask;
 }
 
-// Function to update task status
 export async function updateStatus(
   tx: Prisma.TransactionClient,
   { id, status }: Pick<Task, "id" | "status">
@@ -35,6 +34,10 @@ export async function updateStatus(
 
   if (task.status === "DONE") {
     throw new Error("Cannot change status of a DONE task");
+  }
+
+  if (!canChangeToStatus(task, status)) {
+    throw new Error(`Cannot change status to ${status} from ${task.status}`);
   }
 
   // Logic for "DOING" task status

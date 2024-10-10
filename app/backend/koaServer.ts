@@ -11,12 +11,13 @@ const router = new Router();
 app.use(bodyParser());
 
 // Define routes with the transaction middleware
-router.get("/tasks", withTransaction, taskController.getAll);
-router.post("/tasks", withTransaction, taskController.addTask);
-router.patch("/tasks", withTransaction, taskController.updateTaskStatus);
+router.get("/api/tasks", withTransaction, taskController.getAll);
+router.post("/api/tasks", withTransaction, taskController.addTask);
+router.patch("/api/tasks", withTransaction, taskController.updateTaskStatus);
 
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(3001, () => {
-  console.log("Koa server running on port 3001");
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+  console.log(`Koa server running on port ${port}`);
 });

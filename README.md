@@ -52,19 +52,19 @@ We will integrate our PostgreSQL in our project through Prisma. This is a widely
 
 Analyzing the requirements, the only entity we need to store is Task. The columns are predefined, and there is no user management required.
 
-We could have chosen to have an entity Column, and this choice would have been a bit more in line with a DDD approach. Conceptually Column does exist, and Tasks could have a foreign key referencing them. However, in this project there is simply no other information associatet with Column, which would have made the schema unnecessarily complex. In the tradeoff between following a more DDD approach and a KISS aproach, we chose KISS in this case.
+We could have chosen to have an entity Column, and this choice would have been a bit more in line with a DDD approach. Conceptually Column does exist, and Tasks could have a foreign key referencing them. However, in this project there is simply no other information associated with Column, which would have made the schema unnecessarily complex. In the tradeoff between following a more DDD approach and a KISS aproach, we chose KISS in this case.
 
 ### Project structure
 
 The project has a few relevant folders:
 
--- app
-|-- backend `This contains all code related to the backend`
-|-- frontend `This contains all code related to the frontend`
-|-- shared `This is all code shared between frontend and backend`
---e2e.tests `All the playwright tests`
---lib `Global constants definitions for Prisma client`
---prisma `The database schemas for Prisma`
+. app
+L** backend `This contains all code related to the backend`
+L** frontend `This contains all code related to the frontend`
+L\_\_ shared `This is all code shared between frontend and backend`
+. e2e.tests `All the playwright tests`
+. lib `Global constants definitions for Prisma client`
+. prisma `The database schemas for Prisma`
 
 ### Architecture
 

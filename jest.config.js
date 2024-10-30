@@ -1,3 +1,5 @@
+const dotenv = require("dotenv");
+
 module.exports = {
   preset: "ts-jest",
   testPathIgnorePatterns: ['/node_modules/', '/.next/'],
@@ -5,10 +7,16 @@ module.exports = {
     {
       displayName: "server", // For backend/API tests
       testEnvironment: "node",
-      setupFilesAfterEnv: [], // No jsdom or client-specific setups
       testMatch: ["**/*.test.ts"], // Match only server-side test files
+      moduleNameMapper: {
+        "^@/(.*)$": "<rootDir>/app/$1"
+      },
+      setupFilesAfterEnv: [], // No jsdom or client-specific setups
       globals: {
-        "process.env.DATABASE_URL": require("dotenv").config({ path: ".env.test" }).parsed.DATABASE_URL,
+        "process.env": {
+          ...process.env,
+          ...dotenv.config({ path: ".env.test" }).parsed,
+        },
       },
     },
   ],

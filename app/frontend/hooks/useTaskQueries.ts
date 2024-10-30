@@ -1,14 +1,14 @@
+import { Task } from "@prisma/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Task } from "../../shared/constants"; // Ensure this path is correct
 
-const API_URL = "/api/tasks"; // Update to your actual API endpoint
+const API_URL = "/api/tasks";
 
 export const useTaskQueries = (options = {}) => {
   const queryClient = useQueryClient();
 
   // Fetch tasks
-  const fetchTasks = async (): Promise<Task[]> => {
-    const response = await fetch(API_URL);
+  const fetchTasks = async (boardId: number): Promise<Task[]> => {
+    const response = await fetch(`${API_URL}/${boardId}`);
     if (!response.ok) throw new Error("Network response was not ok");
     return response.json();
   };
@@ -29,10 +29,7 @@ export const useTaskQueries = (options = {}) => {
   };
 
   // Update task mutation
-  const updateTask = async ({
-    id,
-    status,
-  }: Pick<Task, "id" | "status">): Promise<Task> => {
+  const updateTask = async ({ id }: Pick<Task, "id">): Promise<Task> => {
     const response = await fetch(`${API_URL}`, {
       method: "PATCH",
       headers: {
@@ -72,11 +69,7 @@ export const useTaskQueries = (options = {}) => {
   });
 
   // Mutation for updating task
-  const updateTaskMutation = useMutation<
-    Task,
-    Error,
-    Pick<Task, "id" | "status">
-  >({
+  const updateTaskMutation = useMutation<Task, Error, Pick<Task, "id">>({
     mutationFn: updateTask,
     onSuccess: () => {
       // Invalidate and refetch tasks after updating a task

@@ -39,7 +39,8 @@
     "react-error-boundary": "^4.0.13",
     "start-server-and-test": "^2.0.8",
     "supertest": "^7.0.0",
-    "ts-jest": "^29.2.5"
+    "ts-jest": "^29.2.5",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.0",

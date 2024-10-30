@@ -1,22 +1,69 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")  // Configure PostgreSQL in .env file
+  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-enum TaskStatus {
-  BACKLOG
-  TODO
-  DOING
-  DONE
+// User Aggregate
+model User {
+  id          String     @id
+  name        String
+  boards      BoardUser[]
+  tasks       TaskAssignee[]
+}
+
+// Project Aggregate
+model Project {
+  id          String     @id
+  title       String
+  description String?
+  boards      Board[]
+}
+
+// Board and Board Access
+model BoardUser {
+  id          String     @id
+  boardId     String
+  board       Board      @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Board {
+  id          String     @id
+  title       String
+  projectId   String
+  project     Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  columns     Column[]
+  users       BoardUser[]
+}
+
+// Column and Task Aggregate
+model Column {
+  id          String     @id
+  title       String
+  boardId     String
+  board       Board      @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  tasks       Task[]
 }
 
 model Task {
-  id          Int       @id @default(autoincrement())
+  id          String     @id
   title       String
   description String
-  status      TaskStatus @default(BACKLOG) 
+  columnId    String
+  column      Column     @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  assignees   TaskAssignee[]
+}
+
+// Task Assignment
+model TaskAssignee {
+  id          String     @id
+  taskId      String
+  task        Task       @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

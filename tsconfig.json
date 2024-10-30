@@ -10,7 +10,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["app/*"]
+      "@/*": ["./app/*"]
     },
     "allowJs": false, // Disable if you only want TypeScript
     "noEmit": false, // Set to false to emit compiled files

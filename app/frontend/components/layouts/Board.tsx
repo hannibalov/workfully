@@ -5,7 +5,6 @@ import TaskColumn from "../tasks/TaskColumn";
 import { useSnackbar } from "../../context/snackbarContext";
 import SnackMessage from "../errors/SnackMessage";
 import "../../../styles.css";
-import { Task, TaskStatus, taskStatuses } from "../../../shared/constants";
 import { DragProvider } from "../../context/dragContext";
 
 const Board = () => {
